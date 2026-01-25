@@ -7,7 +7,7 @@ export function cleanInput(input: String): string[]{
 
 
 
-export function startREPL(state: State){
+export async function startREPL(state: State){
   state.readline.prompt();
   state.readline.on('line', (line: string) => {
     const command: string = cleanInput(line)[0];

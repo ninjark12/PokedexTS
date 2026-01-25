@@ -1,15 +1,20 @@
 import { createInterface, type Interface } from "readline";
 import { commandExit } from "./commandExit.js";
 import { commandHelp } from "./commandHelp.js";
+import { commandMap } from "./commandMap.js";
+import { PokeAPI } from "./PokeAPI.js";
 export type State = {
     commands: Record<string,CLICommand>;
     readline: Interface;
+    PokeAPI: PokeAPI;
+    previousURL: string | null;
+    nextURL: string | null;
 }
 
 export type CLICommand = {
     name: string,
     description: string,
-    callback: (state: State) => void;
+    callback: (state: State) => Promise<void>;
 }
 
 export function initState(): State{
@@ -30,8 +35,18 @@ export function initState(): State{
             description:"Displays a help message",
             callback: commandHelp,
         },
+        map: {
+            name: "map",
+            description: "Displays the next 20 locations",
+            callback: commandMap,
+        },
+        mapb: {
+            name: "mapb",
+            description: "Displays the previous 20 locations",
+            callback: commandMap,
+        }
 
     }
 
-    return {readline: rl, commands: commandRegistry};
+    return {readline: rl, commands: commandRegistry, PokeAPI: new PokeAPI, previousURL: null, nextURL: null};
 }
