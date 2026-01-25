@@ -5,4 +5,5 @@ export async function commandMapb(state) {
     for (let i = 0; i < 20; i++) {
         console.log(locations.results[i]["name"]);
     }
+    state.readline.prompt();
 }

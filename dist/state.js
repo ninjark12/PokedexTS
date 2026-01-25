@@ -3,6 +3,7 @@ import { commandExit } from "./commandExit.js";
 import { commandHelp } from "./commandHelp.js";
 import { commandMap } from "./commandMap.js";
 import { PokeAPI } from "./PokeAPI.js";
+import { commandMapb } from "./commandMapb.js";
 export function initState() {
     const rl = createInterface({
         input: process.stdin,
@@ -28,7 +29,7 @@ export function initState() {
         mapb: {
             name: "mapb",
             description: "Displays the previous 20 locations",
-            callback: commandMap,
+            callback: commandMapb,
         }
     };
     return { readline: rl, commands: commandRegistry, PokeAPI: new PokeAPI, previousURL: null, nextURL: null };

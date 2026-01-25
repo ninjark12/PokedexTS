@@ -1,6 +1,5 @@
-import { Readline } from "readline/promises";
 import { State } from "./state.js";
-import { PokeAPI } from "./PokeAPI.js";
+
 export async function commandMap(state:State){
     const locations = await state.PokeAPI.fetchLocations(state.nextURL ?? "");
     state.nextURL = await locations.next;
@@ -9,5 +8,6 @@ export async function commandMap(state:State){
         console.log(locations.results[i]["name"]);
     }
     
+    state.readline.prompt();
     
 }

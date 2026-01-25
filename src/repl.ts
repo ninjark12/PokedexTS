@@ -12,7 +12,7 @@ export async function startREPL(state: State){
   state.readline.on('line', (line: string) => {
     const command: string = cleanInput(line)[0];
     if (!command){
-      state.readline.prompt;
+      state.readline.prompt();
       return;
     }
     else{
@@ -21,14 +21,13 @@ export async function startREPL(state: State){
       if (cmd){
        try{ 
         cmd.callback(state);
-        state.readline.prompt()
        } catch (error){
         console.log(error);
        } 
       } else {
        console.log("Unknown command");
        state.readline.prompt();      
-      } 
+      }
     } 
   });
 
