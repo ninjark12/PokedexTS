@@ -12,7 +12,7 @@ export class PokeAPI {
         return this.cache.get(url);
     }
     try{
-       const response = await fetch(url);
+       const response = (await fetch(url));
        if (!response.ok){
         throw new Error(`Did not get a valid response: ${response.status}: ${response.statusText}`);
        }
