@@ -22,13 +22,36 @@ export class PokeAPI {
         }
     }
     async fetchLocation(locationName) {
+        const url = `${PokeAPI.baseURL}/location-area/${locationName}`;
+        if (this.cache.get(url)) {
+            return this.cache.get(url);
+        }
         try {
-            const response = await fetch(`${PokeAPI.baseURL}/location-area/${locationName}`);
+            const response = await fetch(url);
             if (!response.ok) {
                 throw new Error(`Could not get a valid response: ${response.status}: ${response.statusText}`);
             }
-            const jsonResponse = await response.json();
-            return jsonResponse;
+            const locationJSON = await response.json();
+            this.cache.add(url, locationJSON);
+            return locationJSON;
+        }
+        catch (e) {
+            throw new Error(`Error fetching location: ${e.message} `);
+        }
+    }
+    async fetchPokemon(pokemonName) {
+        const url = `${PokeAPI.baseURL}/pokemon/${pokemonName}`;
+        if (this.cache.get(url)) {
+            return this.cache.get(url);
+        }
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Could not get a valid response: ${response.status}: ${response.statusText}`);
+            }
+            const pokemonJSON = await response.json();
+            this.cache.add(url, pokemonJSON);
+            return pokemonJSON;
         }
         catch (e) {
             throw new Error(`Error fetching location: ${e.message} `);

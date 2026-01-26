@@ -5,6 +5,9 @@ import { commandMap } from "./commandMap.js";
 import { PokeAPI } from "./PokeAPI.js";
 import { commandMapb } from "./commandMapb.js";
 import { commandExplore } from "./commandExplore.js";
+import { commandCatch } from "./commandCatch.js";
+import { commandInspect } from "./commandInspect.js";
+import { commandPokedex } from "./commandPokedex.js";
 export function initState() {
     const rl = createInterface({
         input: process.stdin,
@@ -34,9 +37,24 @@ export function initState() {
         },
         explore: {
             name: "explore",
-            description: "Usage:\nexplore <area_name>\nreturns pokemon found in that area.",
+            description: "Usage:explore <area_name>\nreturns pokemon found in that area.",
             callback: commandExplore,
+        },
+        catch: {
+            name: "catch",
+            description: "catch pokemon by doing: catch <pokemon name>",
+            callback: commandCatch,
+        },
+        inspect: {
+            name: "inspect",
+            description: "see the details for a pokemon you've caught",
+            callback: commandInspect
+        },
+        pokedex: {
+            name: "pokedex",
+            description: "see what pokemon you have caught",
+            callback: commandPokedex
         }
     };
-    return { readline: rl, commands: commandRegistry, PokeAPI: new PokeAPI, previousURL: null, nextURL: null };
+    return { readline: rl, commands: commandRegistry, PokeAPI: new PokeAPI, previousURL: null, nextURL: null, Pokedex: {} };
 }

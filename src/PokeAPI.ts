@@ -25,19 +25,126 @@ export class PokeAPI {
   }
 
   async fetchLocation(locationName: string): Promise<Location> {
-    
+    const url =  `${PokeAPI.baseURL}/location-area/${locationName}`;
+    if (this.cache.get(url)){
+        return this.cache.get(url);
+    }
     try{  
-        const response = await fetch(`${PokeAPI.baseURL}/location-area/${locationName}`);
+        const response = await fetch(url);
         if (!response.ok){
             throw new Error(`Could not get a valid response: ${response.status}: ${response.statusText}`);
         }
-        const jsonResponse: Location = await response.json()
-        return jsonResponse;
+        const locationJSON: Location = await response.json()
+        this.cache.add(url,locationJSON);
+        return locationJSON;
+    } catch (e){
+        throw new Error(`Error fetching location: ${(e as Error).message} `);
+    }
+  }
+
+  async fetchPokemon(pokemonName: string): Promise<Pokemon>{
+    const url = `${PokeAPI.baseURL}/pokemon/${pokemonName}`;
+    if (this.cache.get(url)){
+        return this.cache.get(url);
+    }
+    try{  
+        const response = await fetch(url);
+        if (!response.ok){
+            throw new Error(`Could not get a valid response: ${response.status}: ${response.statusText}`);
+        }
+        const pokemonJSON: Pokemon = await response.json()
+        this.cache.add(url,pokemonJSON);
+        return pokemonJSON;
     } catch (e){
         throw new Error(`Error fetching location: ${(e as Error).message} `);
     }
   }
 }
+
+
+
+
+
+
+export type Pokemon = {
+ 
+  base_experience: number
+  weight: number
+  height: number
+  id: number
+  location_area_encounters: string
+  moves: {
+    move: {
+      name: string
+      url: string
+    }
+    version_group_details: {
+      level_learned_at: number
+      move_learn_method: {
+        name: string
+        url: string
+      }
+      order: any
+      version_group: {
+        name: string
+        url: string
+      }
+    }[]
+  }[]
+  name: string
+  order: number
+  
+  sprites: {
+    back_default: string
+    back_female: any
+    back_shiny: string
+    back_shiny_female: any
+    front_default: string
+    front_female: any
+    front_shiny: string
+    front_shiny_female: any
+    other: {
+      home: {
+        front_default: string
+        front_female: any
+        front_shiny: string
+        front_shiny_female: any
+      }
+      "official-artwork": {
+        front_default: string
+        front_shiny: string
+      }
+      showdown: {
+        back_default: string
+        back_female: any
+        back_shiny: string
+        back_shiny_female: any
+        front_default: string
+        front_female: any
+        front_shiny: string
+        front_shiny_female: any
+      }
+    }
+    
+  }
+  stats: {
+    base_stat: number
+    effort: number
+    stat: {
+      name: string
+      url: string
+    }
+  }[]
+  types: {
+    slot: number
+    type: {
+      name: string
+      url: string
+    }
+  }[]
+
+}
+
 
 export type ShallowLocations = {
     previous: string | null,
