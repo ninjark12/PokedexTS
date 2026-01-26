@@ -11,6 +11,7 @@ export async function startREPL(state: State){
   state.readline.prompt();
   state.readline.on('line', (line: string) => {
     const command: string = cleanInput(line)[0];
+    const args: string[] = cleanInput(line) ?? "";
     if (!command){
       state.readline.prompt();
       return;
@@ -20,7 +21,7 @@ export async function startREPL(state: State){
       const cmd = commands[command];    
       if (cmd){
        try{ 
-        cmd.callback(state);
+        cmd.callback(state,args);
        } catch (error){
         console.log(error);
        } 

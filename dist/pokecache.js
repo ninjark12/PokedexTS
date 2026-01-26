@@ -24,12 +24,13 @@ export class Cache {
             return undefined;
         }
         else {
-            return this.#cache.get(key);
+            return this.#cache.get(key)?.val;
         }
     }
     #reap() {
+        const now = Date.now();
         for (const [key, val] of this.#cache) {
-            if (Date.now() - val.createdAt > Date.now() - this.#interval) {
+            if (now - val.createdAt > this.#interval) {
                 this.#cache.delete(key);
             }
         }
@@ -40,7 +41,9 @@ export class Cache {
         }, this.#interval);
     }
     stopReapLoop() {
-        clearInterval(this.#reapIntervalId);
-        this.#reapIntervalId = undefined;
+        if (this.#reapIntervalId !== undefined) {
+            clearInterval(this.#reapIntervalId);
+            this.#reapIntervalId = undefined;
+        }
     }
 }

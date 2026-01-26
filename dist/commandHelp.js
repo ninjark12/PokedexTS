@@ -3,5 +3,5 @@ export async function commandHelp(state) {
     for (const command in state.commands) {
         console.log(`${state.commands[command].name}: ${state.commands[command].description}`);
     }
-    return;
+    state.readline.prompt();
 }

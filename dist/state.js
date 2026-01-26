@@ -4,6 +4,7 @@ import { commandHelp } from "./commandHelp.js";
 import { commandMap } from "./commandMap.js";
 import { PokeAPI } from "./PokeAPI.js";
 import { commandMapb } from "./commandMapb.js";
+import { commandExplore } from "./commandExplore.js";
 export function initState() {
     const rl = createInterface({
         input: process.stdin,
@@ -30,6 +31,11 @@ export function initState() {
             name: "mapb",
             description: "Displays the previous 20 locations",
             callback: commandMapb,
+        },
+        explore: {
+            name: "explore",
+            description: "Usage:\nexplore <area_name>\nreturns pokemon found in that area.",
+            callback: commandExplore,
         }
     };
     return { readline: rl, commands: commandRegistry, PokeAPI: new PokeAPI, previousURL: null, nextURL: null };

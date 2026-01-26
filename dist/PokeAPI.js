@@ -6,7 +6,7 @@ export class PokeAPI {
     async fetchLocations(pageURL) {
         const url = pageURL || `${PokeAPI.baseURL}/location-area`;
         if (this.cache.get(url)) {
-            return this.cache.get(url)?.val;
+            return this.cache.get(url);
         }
         try {
             const response = await fetch(url);
