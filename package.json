@@ -10,7 +10,7 @@
     "dev": "npx tsc && node dist/main.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Raghav Kapoor",
   "license": "ISC",
   "description": "",
   "devDependencies": {

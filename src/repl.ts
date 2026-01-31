@@ -1,17 +1,18 @@
 import type { State } from "./state.js";
-export function cleanInput(input: String): string[]{
+
+export function cleanInput(input: string): string[]{
   return input.trim().toLowerCase().split(" ");
       
 }
 
 
-
-
 export async function startREPL(state: State){
   state.readline.prompt();
-  state.readline.on('line', (line: string) => {
-    const command: string = cleanInput(line)[0];
-    const args: string[] = cleanInput(line) ?? "";
+  state.readline.on('line', async (line: string) => {
+    const cleanedInput = cleanInput(line);
+    const command: string = cleanedInput[0];
+    const args: string[] = cleanedInput.slice(1) ?? "";
+    
     if (!command){
       state.readline.prompt();
       return;
@@ -21,7 +22,8 @@ export async function startREPL(state: State){
       const cmd = commands[command];    
       if (cmd){
        try{ 
-        cmd.callback(state,args);
+        await cmd.callback(state,args);
+        state.readline.prompt();
        } catch (error){
         console.log(error);
        } 
